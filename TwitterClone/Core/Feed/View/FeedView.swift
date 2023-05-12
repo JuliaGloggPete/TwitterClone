@@ -7,25 +7,46 @@
 
 import SwiftUI
 
-struct FeatView: View {
+struct FeedView: View {
+@State private var showNewTweetView = false
+
+
     var body: some View {
-        
-        ScrollView{
-            LazyVStack{
-                ForEach(0 ... 20, id: \.self){ _ in
-                    TweetsRowView()
-                        .padding()
+        ZStack (alignment: .bottomTrailing){
+            ScrollView{
+                LazyVStack{
+                    ForEach(0 ... 20, id: \.self){ _ in
+                        TweetsRowView()
+                            .padding()
+                    }
+                    
                 }
-                
             }
+            Button{
+                showNewTweetView.toggle()}
+        label: {
+            Image(systemName: "bird.fill")
+                .resizable()
+                .renderingMode(.template)
+                .frame(width: 28, height: 28)
+                .padding()
+            
+            
             
             
         }
-    }
+        .background(Color(.systemBlue))
+        .foregroundColor(.white)
+        .clipShape(Circle())
+        .padding()
+        .fullScreenCover(isPresented: $showNewTweetView) {
+         NewTweetView()
+        }
+        }}
 }
 
-struct FeatView_Previews: PreviewProvider {
+struct FeedView_Previews: PreviewProvider {
     static var previews: some View {
-        FeatView()
+        FeedView()
     }
 }
